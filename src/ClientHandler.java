@@ -73,6 +73,25 @@ public class ClientHandler implements Runnable {
                         }
                     }
 
+                    case EXISTS -> {
+                        if (store.isEmpty()) {
+                            writer.println("Database is empty. Set a value first.");
+                            continue;
+                        }
+                        if (!store.containsKey(cmd.key)) {
+                            writer.println("Key does not exist");
+                            continue;
+                        }
+                        String value = store.get(cmd.key);
+                        if (value != null) {
+                            writer.println("Key exists");
+                            writer.println("KEY: " + cmd.key);
+                            writer.println("VALUE: " + value);
+                        } else {
+                            writer.println("Key does not exist");
+                        }
+                    }
+
                     case UNKNOWN -> {
                         writer.println("Enter valid Prithvi command. See docs");
                     }
