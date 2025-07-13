@@ -1,4 +1,5 @@
 package src;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class Parser {
             case GET -> (parts.length == 2)
                     ? new Command(type, parts[1], null)
                     : Command.unknown();
-
+            case DEL -> (parts.length == 2) ? new Command(type, parts[1], null) : Command.unknown();
             default -> Command.unknown();
         };
     }
