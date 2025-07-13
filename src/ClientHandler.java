@@ -56,6 +56,23 @@ public class ClientHandler implements Runnable {
                         store.remove(cmd.key);
                         writer.println("Removed Key : " + cmd.key);
                     }
+                    case FLUSH -> {
+                        if (store.isEmpty()) {
+                            writer.println("Database is empty. Set a value first");
+                            continue;
+                        }
+
+                        writer.println("⚠️ WARNING: This will delete all keys. Type YES to confirm.");
+
+                        String confirmation = reader.readLine();
+                        if (confirmation.equals("YES")) {
+                            store.clear();
+                            writer.println("✅ Store flushed.");
+                        } else {
+                            writer.println("❎ FLUSH aborted.");
+                        }
+                    }
+
                     case UNKNOWN -> {
                         writer.println("Enter valid Prithvi command. See docs");
                     }

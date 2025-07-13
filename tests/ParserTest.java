@@ -11,7 +11,14 @@ public class ParserTest {
         test("SET foo bar", Command.Type.SET, "foo", "bar");
         test("GET foo", Command.Type.GET, "foo", null);
         test("SET onlyonearg", Command.Type.UNKNOWN, null, null);
+
+        test("DEL key1", Command.Type.DEL, "key1", null);
+        test("DEL", Command.Type.UNKNOWN, null, null);
+        test("DEL key1 extra", Command.Type.UNKNOWN, null, null);
+
+        test("FLUSH", Command.Type.FLUSH, null, null);
         test("FLUSH something", Command.Type.UNKNOWN, null, null);
+
         test("", Command.Type.UNKNOWN, null, null);
     }
 

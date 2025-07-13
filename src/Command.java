@@ -1,7 +1,8 @@
 package src;
+
 public class Command {
     public enum Type {
-        SET, GET, DEL, UNKNOWN;
+        SET, GET, DEL, UNKNOWN, FLUSH;
 
         public static Type fromString(String s) {
             try {
