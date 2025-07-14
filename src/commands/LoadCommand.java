@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,12 +55,10 @@ public class LoadCommand implements CommandExecutor {
                 String key = clean(onePair[0]);
                 String value = clean(onePair[1]);
                 store.put(key, value);
-                System.out.println(key);
-                System.out.println(value);
             }
 
             for (Map.Entry<String, String> entry : store.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
+                writer.println(entry.getKey() + " : " + entry.getValue());
             }
 
             writer.println("✅ Store loaded from disk.");
