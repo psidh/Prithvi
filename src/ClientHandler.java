@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import src.commands.*;
 import src.db.Store;
+import src.db.ValueWithExpiry;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
-    private static final ConcurrentHashMap<String, String> store = Store.get();
+    private static final ConcurrentHashMap<String, ValueWithExpiry> store = Store.get();
 
     private static final Map<Command.Type, CommandExecutor> commandMap = Map.of(
             Command.Type.SET, new SetCommand(),

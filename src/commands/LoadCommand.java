@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import src.db.ValueWithExpiry;
 
 public class LoadCommand implements CommandExecutor {
     private static final String FILE_PATH = "data/store.json";
@@ -17,7 +18,7 @@ public class LoadCommand implements CommandExecutor {
 
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, String> store) throws IOException {
+            ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
 
         try {
             File file = new File(DIRECTORY);
@@ -54,10 +55,11 @@ public class LoadCommand implements CommandExecutor {
                 String[] onePair = pair.trim().split(":");
                 String key = clean(onePair[0]);
                 String value = clean(onePair[1]);
-                store.put(key, value);
+                store.put(key, new ValueWithExpiry(value));
+
             }
 
-            for (Map.Entry<String, String> entry : store.entrySet()) {
+            for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
                 writer.println(entry.getKey() + " : " + entry.getValue());
             }
 

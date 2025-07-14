@@ -16,11 +16,20 @@ public class Command {
     public Type type;
     public String key;
     public String value;
+    public Long ttlSeconds;
 
     public Command(Type type, String key, String value) {
         this.type = type;
         this.key = key;
         this.value = value;
+        this.ttlSeconds = Long.MAX_VALUE;
+    }
+
+    public Command(Type type, String key, String value, Long ttlSeconds) {
+        this.type = type;
+        this.key = key;
+        this.value = value;
+        this.ttlSeconds = ttlSeconds;
     }
 
     public static Command unknown() {

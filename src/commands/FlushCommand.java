@@ -7,20 +7,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import src.db.ValueWithExpiry;
 
 public class FlushCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, String> store) throws IOException {
+            ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
         if (store.isEmpty()) {
             writer.println("⚠️ Database is empty. Set a value first");
             return;
         }
 
         writer.println("⚠️ WARNING: This will delete all keys. Type YES to confirm.");
-
         String confirmation = reader.readLine();
-        if (confirmation.equals("YES")) {
+
+        if ("YES".equalsIgnoreCase(confirmation)) {
             store.clear();
             writer.println("✅ Store flushed.");
         } else {

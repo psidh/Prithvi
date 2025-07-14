@@ -7,15 +7,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import src.db.ValueWithExpiry;
 
 public class ListAllCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, String> store) {
+            ConcurrentHashMap<String, ValueWithExpiry> store) {
         writer.println("Keys in the database currently.");
         int index = 1;
 
-        for (Map.Entry<String, String> entry : store.entrySet()) {
+        for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
             writer.println(index + ". " + entry.getKey() + " : " + entry.getValue());
             index++;
         }

@@ -6,12 +6,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import src.db.ValueWithExpiry;
 
 public class GetCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, String> store) {
-        String val = store.get(cmd.key);
-        writer.println(val != null ? val : "nil");
+            ConcurrentHashMap<String, ValueWithExpiry> store) {
+
+        ValueWithExpiry v = store.get(cmd.key);
+
+        if (v == null || v.isExpired()) {
+            store.remove(cmd.key); 
+            writer.println("nil");
+        } else {
+            writer.println(v.value);
+        }
     }
 }

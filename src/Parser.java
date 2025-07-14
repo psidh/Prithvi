@@ -11,33 +11,57 @@ public class Parser {
     }
 
     public Command parseNextCommand() throws IOException {
-
         String input = reader.readLine();
 
         if (input == null || input.isEmpty()) {
             return Command.unknown();
         }
 
-        String[] parts = input.trim().split("\\s+", 3);
+        String[] parts = input.trim().split("\\s+");
         Command.Type type = Command.Type.fromString(parts[0]);
 
-        return switch (type) {
-            case SET -> (parts.length == 3)
-                    ? new Command(type, parts[1], parts[2])
-                    : Command.unknown();
+        switch (type) {
+            case SET:
+                if (parts.length == 3) {
+                    return new Command(type, parts[1], parts[2]);
+                } else if (parts.length == 5 && parts[3].equalsIgnoreCase("EX")) {
+                    try {
+                        long ttl = Long.parseLong(parts[4]);
+                        return new Command(type, parts[1], parts[2], ttl);
+                    } catch (NumberFormatException e) {
+                        return Command.unknown();
+                    }
+                } else {
+                    return Command.unknown();
+                }
 
-            case GET -> (parts.length == 2)
-                    ? new Command(type, parts[1], null)
-                    : Command.unknown();
-            case DEL -> (parts.length == 2) ? new Command(type, parts[1], null) : Command.unknown();
-            case FLUSH -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
-            case EXISTS -> (parts.length == 2) ? new Command(type, parts[1], null) : Command.unknown();
-            case LISTALL -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
-            case SAVE -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
-            case LOAD -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
-            case QUIT -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
-            default -> Command.unknown();
-        };
+            case GET:
+                return (parts.length == 2)
+                        ? new Command(type, parts[1], null)
+                        : Command.unknown();
+
+            case DEL:
+                return (parts.length == 2)
+                        ? new Command(type, parts[1], null)
+                        : Command.unknown();
+
+            case FLUSH:
+            case LISTALL:
+            case SAVE:
+            case LOAD:
+            case QUIT:
+                return (parts.length == 1)
+                        ? new Command(type, null, null)
+                        : Command.unknown();
+
+            case EXISTS:
+                return (parts.length == 2)
+                        ? new Command(type, parts[1], null)
+                        : Command.unknown();
+
+            default:
+                return Command.unknown();
+        }
     }
 
 }

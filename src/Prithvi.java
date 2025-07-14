@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import src.commands.SaveCommand;
+import src.db.AutoSaveTask;
 import src.db.Store;
 
 public class Prithvi {
@@ -54,10 +55,11 @@ public class Prithvi {
                 System.out.println("👋 Shutdown complete. Exiting...");
             }));
 
+            new Thread(new AutoSaveTask(10)).start(); // Every 10s
+
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("⚡ New client connected: " + clientSocket.getInetAddress());
-
                 new Thread(new ClientHandler(clientSocket)).start();
             }
         } catch (Exception e) {
