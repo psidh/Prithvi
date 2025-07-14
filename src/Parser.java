@@ -32,6 +32,7 @@ public class Parser {
             case DEL -> (parts.length == 2) ? new Command(type, parts[1], null) : Command.unknown();
             case FLUSH -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
             case EXISTS -> (parts.length == 2) ? new Command(type, parts[1], null) : Command.unknown();
+            case LISTALL -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
             default -> Command.unknown();
         };
     }

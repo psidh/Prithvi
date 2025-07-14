@@ -5,11 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import src.commands.*;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private static final ConcurrentHashMap<String, String> store = new ConcurrentHashMap<>();
+
+    private static final Map<Command.Type, CommandExecutor> commandMap = Map.of(
+            Command.Type.SET, new SetCommand(),
+            Command.Type.GET, new GetCommand(),
+            Command.Type.DEL, new DelCommand(),
+            Command.Type.FLUSH, new FlushCommand(),
+            Command.Type.EXISTS, new ExistsCommand(),
+            Command.Type.LISTALL, new ListAllCommand());
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -34,67 +44,12 @@ public class ClientHandler implements Runnable {
                     continue;
                 }
 
-                switch (cmd.type) {
-                    case SET -> {
-                        store.put(cmd.key, cmd.value);
-                        writer.println("OK");
-                    }
-                    case GET -> {
-                        String val = store.get(cmd.key);
-                        writer.println(val != null ? val : "nil");
-                    }
-                    case DEL -> {
-                        if (store.isEmpty()) {
-                            writer.println("Database is empty. Set a value first");
-                            continue;
-                        }
-                        if (!store.containsKey(cmd.key)) {
-                            writer.println("Key-Value doesn't exist.");
-                            continue;
-                        }
+                CommandExecutor executor = commandMap.get(cmd.type);
 
-                        store.remove(cmd.key);
-                        writer.println("Removed Key : " + cmd.key);
-                    }
-                    case FLUSH -> {
-                        if (store.isEmpty()) {
-                            writer.println("Database is empty. Set a value first");
-                            continue;
-                        }
-
-                        writer.println("⚠️ WARNING: This will delete all keys. Type YES to confirm.");
-
-                        String confirmation = reader.readLine();
-                        if (confirmation.equals("YES")) {
-                            store.clear();
-                            writer.println("✅ Store flushed.");
-                        } else {
-                            writer.println("❎ FLUSH aborted.");
-                        }
-                    }
-
-                    case EXISTS -> {
-                        if (store.isEmpty()) {
-                            writer.println("Database is empty. Set a value first.");
-                            continue;
-                        }
-                        if (!store.containsKey(cmd.key)) {
-                            writer.println("Key does not exist");
-                            continue;
-                        }
-                        String value = store.get(cmd.key);
-                        if (value != null) {
-                            writer.println("Key exists");
-                            writer.println("KEY: " + cmd.key);
-                            writer.println("VALUE: " + value);
-                        } else {
-                            writer.println("Key does not exist");
-                        }
-                    }
-
-                    case UNKNOWN -> {
-                        writer.println("Enter valid Prithvi command. See docs");
-                    }
+                if (executor != null) {
+                    executor.execute(cmd, writer, reader, store);
+                } else {
+                    writer.println("Enter valid Prithvi command. See docs");
                 }
             }
         }
