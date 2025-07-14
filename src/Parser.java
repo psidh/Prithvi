@@ -35,6 +35,7 @@ public class Parser {
             case LISTALL -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
             case SAVE -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
             case LOAD -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
+            case QUIT -> (parts.length == 1) ? new Command(type, null, null) : Command.unknown();
             default -> Command.unknown();
         };
     }
