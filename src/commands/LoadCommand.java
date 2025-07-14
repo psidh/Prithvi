@@ -5,8 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import src.Command;
 import src.CommandExecutor;
@@ -16,66 +17,50 @@ public class LoadCommand implements CommandExecutor {
     private static final String FILE_PATH = "data/store.json";
     private static final String DIRECTORY = "data";
 
+    private static final Pattern ENTRY_PATTERN = Pattern.compile(
+            "\"(.*?)\"\\s*:\\s*\\{\\s*\"value\"\\s*:\\s*\"(.*?)\",\\s*\"expiry\"\\s*:\\s*(\\d+)\\s*\\}");
+
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
-
-        try {
-            File file = new File(DIRECTORY);
-
-            if (!file.exists()) {
-                writer.println("Failed to load. No path");
-                return;
-            }
-
-            StringBuilder loadedString = new StringBuilder();
-
-            try (BufferedReader fileReader = new BufferedReader(new FileReader(FILE_PATH))) {
-                String openingBracket = fileReader.readLine();
-                if (!"{".equals(openingBracket)) {
-                    writer.println("Error parsing json.");
-                    return;
-                }
-
-                loadedString.append(openingBracket);
-                String line;
-                while ((line = fileReader.readLine()) != null) {
-                    loadedString.append(line);
-                }
-            }
-            if (loadedString.length() <= 2) {
-                writer.println("Empty JSON");
-                return;
-            }
-            loadedString.deleteCharAt(0);
-            loadedString.deleteCharAt(loadedString.length() - 1);
-
-            String[] pairs = loadedString.toString().trim().split("\\,+");
-            for (String pair : pairs) {
-                String[] onePair = pair.trim().split(":");
-                String key = clean(onePair[0]);
-                String value = clean(onePair[1]);
-                store.put(key, new ValueWithExpiry(value));
-
-            }
-
-            for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
-                writer.println(entry.getKey() + " : " + entry.getValue());
-            }
-
-            writer.println("✅ Store loaded from disk.");
-
-        } catch (Exception e) {
-            // TODO: handle exception
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            writer.println("❌ Failed to load: File not found");
+            return;
         }
 
+        StringBuilder rawJson = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rawJson.append(line);
+            }
+        }
+
+        String json = rawJson.toString().trim();
+        if (!json.startsWith("{") || !json.endsWith("}")) {
+            writer.println("❌ Invalid JSON structure");
+            return;
+        }
+
+        int loadedCount = 0;
+        Matcher matcher = ENTRY_PATTERN.matcher(json);
+        while (matcher.find()) {
+            String key = unescape(matcher.group(1));
+            String value = unescape(matcher.group(2));
+            long expiry = Long.parseLong(matcher.group(3));
+
+            ValueWithExpiry data = new ValueWithExpiry(value, expiry);
+            if (!data.isExpired()) {
+                store.put(key, data);
+                loadedCount++;
+            }
+        }
+
+        writer.println("✅ Loaded " + loadedCount + " key(s) into memory.");
     }
 
-    private String clean(String raw) {
-        return raw.trim()
-                .replaceAll("^\"|\"$", "") // remove surrounding quotes
-                .replace("\\\"", "\"") // unescape quotes
-                .replace("\\\\", "\\"); // unescape backslashes
+    private String unescape(String str) {
+        return str.replace("\\\"", "\"").replace("\\\\", "\\");
     }
-
 }

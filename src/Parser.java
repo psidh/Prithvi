@@ -17,7 +17,7 @@ public class Parser {
             return Command.unknown();
         }
 
-        String[] parts = input.trim().split("\\s+");
+        String[] parts = input.trim().split("\\s+", 5);
         Command.Type type = Command.Type.fromString(parts[0]);
 
         switch (type) {

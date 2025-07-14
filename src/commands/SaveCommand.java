@@ -22,7 +22,6 @@ public class SaveCommand implements CommandExecutor {
             ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
         try {
             File dir = new File(DIRECTORY);
-
             if (!dir.exists())
                 dir.mkdir();
 
@@ -30,10 +29,17 @@ public class SaveCommand implements CommandExecutor {
                 fileWriter.write("{\n");
                 int index = 0;
                 int size = store.size();
+
                 for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
                     String key = escapeJson(entry.getKey());
-                    String value = escapeJson(entry.getValue().value); // store value
-                    fileWriter.write("  \"" + key + "\": \"" + value + "\"");
+                    String value = escapeJson(entry.getValue().value);
+                    long expiry = entry.getValue().expiryTimestamp;
+
+                    fileWriter.write("  \"" + key + "\": {\n");
+                    fileWriter.write("    \"value\": \"" + value + "\",\n");
+                    fileWriter.write("    \"expiry\": " + expiry + "\n");
+                    fileWriter.write("  }");
+
                     if (++index < size) {
                         fileWriter.write(",");
                     }

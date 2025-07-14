@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import src.commands.SaveCommand;
 import src.db.AutoSaveTask;
+import src.db.ExpiredKeyRemover;
 import src.db.Store;
 
 public class Prithvi {
@@ -55,7 +56,8 @@ public class Prithvi {
                 System.out.println("👋 Shutdown complete. Exiting...");
             }));
 
-            new Thread(new AutoSaveTask(10)).start(); // Every 10s
+            new Thread(new AutoSaveTask(300)).start();
+            new Thread(new ExpiredKeyRemover(5, Store.get())).start();
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
