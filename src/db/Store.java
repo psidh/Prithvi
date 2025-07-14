@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Store {
 
     private static final ConcurrentHashMap<String, ValueWithExpiry> store = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, Long> expiryMap = new ConcurrentHashMap<>();
 
     public static ConcurrentHashMap<String, ValueWithExpiry> get() {
         return store;
