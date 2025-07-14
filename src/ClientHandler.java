@@ -20,7 +20,8 @@ public class ClientHandler implements Runnable {
             Command.Type.FLUSH, new FlushCommand(),
             Command.Type.EXISTS, new ExistsCommand(),
             Command.Type.LISTALL, new ListAllCommand(),
-            Command.Type.SAVE, new SaveCommand());
+            Command.Type.SAVE, new SaveCommand(),
+            Command.Type.LOAD, new LoadCommand());
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;

@@ -14,12 +14,13 @@ import src.CommandExecutor;
 
 public class SaveCommand implements CommandExecutor {
     private static final String FILE_PATH = "data/store.json";
+    private static final String DIRECTORY = "data";
 
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, String> store) throws IOException {
         try {
-            File dir = new File("data");
+            File dir = new File(DIRECTORY);
 
             if (!dir.exists())
                 dir.mkdir();
