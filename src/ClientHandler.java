@@ -19,7 +19,8 @@ public class ClientHandler implements Runnable {
             Command.Type.DEL, new DelCommand(),
             Command.Type.FLUSH, new FlushCommand(),
             Command.Type.EXISTS, new ExistsCommand(),
-            Command.Type.LISTALL, new ListAllCommand());
+            Command.Type.LISTALL, new ListAllCommand(),
+            Command.Type.SAVE, new SaveCommand());
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
