@@ -8,6 +8,10 @@ import src.Command;
 import src.CommandExecutor;
 import src.db.ValueWithExpiry;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 public class SetCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
@@ -18,6 +22,17 @@ public class SetCommand implements CommandExecutor {
                 : new ValueWithExpiry(cmd.value);
 
         store.put(cmd.key, value);
-        writer.println("OK");
+        writer.print("Key : " + cmd.key + " : " + value.value);
+        writer.println();
+
+        if (value.expiryTimestamp != Long.MAX_VALUE) {
+            String formattedExpiry = Instant.ofEpochMilli(value.expiryTimestamp)
+                    .atZone(ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            writer.println("Expiry : " + formattedExpiry);
+        } else {
+            writer.println("Expiry : Never");
+        }
+        writer.flush();
     }
 }

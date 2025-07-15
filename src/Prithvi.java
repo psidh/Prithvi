@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import src.commands.SaveCommand;
+import src.db.AutoLoad;
 import src.db.AutoSaveTask;
 import src.db.ExpiredKeyRemover;
 import src.db.Store;
@@ -55,7 +56,7 @@ public class Prithvi {
                 }
                 System.out.println("👋 Shutdown complete. Exiting...");
             }));
-
+            new Thread(new AutoLoad()).start();
             new Thread(new AutoSaveTask(300)).start();
             new Thread(new ExpiredKeyRemover(5, Store.get())).start();
 

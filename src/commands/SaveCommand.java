@@ -31,6 +31,11 @@ public class SaveCommand implements CommandExecutor {
                 int size = store.size();
 
                 for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
+                    ValueWithExpiry data = entry.getValue();
+
+                    if (data.isExpired()) {
+                        continue;
+                    }
                     String key = escapeJson(entry.getKey());
                     String value = escapeJson(entry.getValue().value);
                     long expiry = entry.getValue().expiryTimestamp;

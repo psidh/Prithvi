@@ -2,11 +2,11 @@ package src.db;
 
 public class ValueWithExpiry {
     public final String value;
-    public final long expiryTimestamp; 
+    public final long expiryTimestamp;
 
     public ValueWithExpiry(String value) {
         this.value = value;
-        this.expiryTimestamp = Long.MAX_VALUE; 
+        this.expiryTimestamp = Long.MAX_VALUE;
     }
 
     public ValueWithExpiry(String value, long ttlSeconds) {

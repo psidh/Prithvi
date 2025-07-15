@@ -15,7 +15,6 @@ import src.db.ValueWithExpiry;
 
 public class LoadCommand implements CommandExecutor {
     private static final String FILE_PATH = "data/store.json";
-    private static final String DIRECTORY = "data";
 
     private static final Pattern ENTRY_PATTERN = Pattern.compile(
             "\"(.*?)\"\\s*:\\s*\\{\\s*\"value\"\\s*:\\s*\"(.*?)\",\\s*\"expiry\"\\s*:\\s*(\\d+)\\s*\\}");
@@ -56,7 +55,10 @@ public class LoadCommand implements CommandExecutor {
                 loadedCount++;
             }
         }
-
+        if (loadedCount == 0) {
+            System.out.println("There are no keys in the store");
+            return;
+        }
         writer.println("✅ Loaded " + loadedCount + " key(s) into memory.");
     }
 

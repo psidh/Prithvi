@@ -60,7 +60,6 @@ public class ClientHandler implements Runnable {
                     """);
 
             writer.println("🚀 PrithviServer listening on port 1902");
-            writer.print(">>");
             Parser parser = new Parser(reader);
 
             Command cmd;
