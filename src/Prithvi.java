@@ -11,6 +11,7 @@ import src.db.ExpiredKeyRemover;
 import src.db.Store;
 
 public class Prithvi {
+    public static final long START_TIME = System.currentTimeMillis();
     private static final int PORT = 1902;
 
     public static void main(String[] args) {

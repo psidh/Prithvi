@@ -13,6 +13,10 @@ public class ListAllCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) {
+        if (store.isEmpty()) {
+            writer.println("No Keys in database");
+            return;
+        }
         writer.println("Keys in the database currently.");
         int index = 1;
 

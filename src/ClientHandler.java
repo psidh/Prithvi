@@ -28,7 +28,8 @@ public class ClientHandler implements Runnable {
             entry(Command.Type.LOAD, new LoadCommand()),
             entry(Command.Type.QUIT, new QuitCommand()),
             entry(Command.Type.FLUSHALL, new FlushAllCommand()),
-            entry(Command.Type.HELP, new HelpCommand()));
+            entry(Command.Type.HELP, new HelpCommand()),
+            entry(Command.Type.INFO, new InfoCommand()));
 
     private static <K, V> Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);

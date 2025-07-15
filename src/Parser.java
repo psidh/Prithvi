@@ -52,6 +52,7 @@ public class Parser {
             case LOAD:
             case HELP:
             case QUIT:
+            case INFO:
                 return (parts.length == 1)
                         ? new Command(type, null, null)
                         : Command.unknown();
