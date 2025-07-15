@@ -5,26 +5,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.AbstractMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import src.commands.*;
 import src.db.Store;
+import java.util.Map.Entry;
 import src.db.ValueWithExpiry;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
     private static final ConcurrentHashMap<String, ValueWithExpiry> store = Store.get();
 
-    private static final Map<Command.Type, CommandExecutor> commandMap = Map.of(
-            Command.Type.SET, new SetCommand(),
-            Command.Type.GET, new GetCommand(),
-            Command.Type.DEL, new DelCommand(),
-            Command.Type.FLUSH, new FlushCommand(),
-            Command.Type.EXISTS, new ExistsCommand(),
-            Command.Type.LISTALL, new ListAllCommand(),
-            Command.Type.SAVE, new SaveCommand(),
-            Command.Type.LOAD, new LoadCommand(),
-            Command.Type.QUIT, new QuitCommand());
+    private static final Map<Command.Type, CommandExecutor> commandMap = Map.ofEntries(
+            entry(Command.Type.SET, new SetCommand()),
+            entry(Command.Type.GET, new GetCommand()),
+            entry(Command.Type.DEL, new DelCommand()),
+            entry(Command.Type.FLUSH, new FlushCommand()),
+            entry(Command.Type.EXISTS, new ExistsCommand()),
+            entry(Command.Type.LISTALL, new ListAllCommand()),
+            entry(Command.Type.SAVE, new SaveCommand()),
+            entry(Command.Type.LOAD, new LoadCommand()),
+            entry(Command.Type.QUIT, new QuitCommand()),
+            entry(Command.Type.FLUSHALL, new FlushAllCommand()),
+            entry(Command.Type.HELP, new HelpCommand()));
+
+    private static <K, V> Entry<K, V> entry(K key, V value) {
+        return new AbstractMap.SimpleEntry<>(key, value);
+    }
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;

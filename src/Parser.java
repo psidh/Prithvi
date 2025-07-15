@@ -46,9 +46,11 @@ public class Parser {
                         : Command.unknown();
 
             case FLUSH:
+            case FLUSHALL:
             case LISTALL:
             case SAVE:
             case LOAD:
+            case HELP:
             case QUIT:
                 return (parts.length == 1)
                         ? new Command(type, null, null)
