@@ -50,13 +50,15 @@ public class LoadCommand implements CommandExecutor {
             long expiry = Long.parseLong(matcher.group(3));
 
             ValueWithExpiry data = new ValueWithExpiry(value, expiry);
+            if (System.currentTimeMillis() > data.expiryTimestamp)
+                continue;
             if (!data.isExpired()) {
                 store.put(key, data);
                 loadedCount++;
             }
         }
         if (loadedCount == 0) {
-            System.out.println("There are no keys in the store");
+            writer.println("There are no keys in the store");
             return;
         }
         writer.println("✅ Loaded " + loadedCount + " key(s) into memory.");
