@@ -9,6 +9,7 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import src.commands.*;
+import src.commands.queue.*;
 import src.db.Store;
 import java.util.Map.Entry;
 import src.db.ValueWithExpiry;
@@ -29,7 +30,12 @@ public class ClientHandler implements Runnable {
             entry(Command.Type.QUIT, new QuitCommand()),
             entry(Command.Type.FLUSHALL, new FlushAllCommand()),
             entry(Command.Type.HELP, new HelpCommand()),
-            entry(Command.Type.INFO, new InfoCommand()));
+            entry(Command.Type.INFO, new InfoCommand()),
+            entry(Command.Type.LPUSH, new LPushCommand()),
+            entry(Command.Type.RPUSH, new RPushCommand()),
+            entry(Command.Type.RPOP, new RPopCommand()),
+            entry(Command.Type.LPOP, new LPopCommand()),
+            entry(Command.Type.GQ, new GQCommand()));
 
     private static <K, V> Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);

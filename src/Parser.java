@@ -36,6 +36,7 @@ public class Parser {
                 }
 
             case GET:
+            case GQ:
                 return (parts.length == 2)
                         ? new Command(type, parts[1], null)
                         : Command.unknown();
@@ -60,6 +61,14 @@ public class Parser {
             case EXISTS:
                 return (parts.length == 2)
                         ? new Command(type, parts[1], null)
+                        : Command.unknown();
+
+            case LPUSH:
+            case RPUSH:
+            case LPOP:
+            case RPOP:
+                return (parts.length == 3)
+                        ? new Command(type, parts[1], parts[2])
                         : Command.unknown();
 
             default:

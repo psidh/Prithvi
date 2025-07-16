@@ -2,7 +2,8 @@ package src;
 
 public class Command {
     public enum Type {
-        SET, GET, DEL, UNKNOWN, FLUSH, EXISTS, LISTALL, SAVE, LOAD, QUIT, FLUSHALL, HELP, INFO;
+        SET, GET, DEL, UNKNOWN, FLUSH, EXISTS, LISTALL, SAVE, LOAD, QUIT, FLUSHALL, HELP, INFO, LPUSH, RPUSH, LPOP,
+        RPOP, GQ;
 
         public static Type fromString(String s) {
             try {

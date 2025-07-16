@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import src.db.ValueType;
 import src.db.ValueWithExpiry;
 
 import java.time.Instant;
@@ -16,6 +17,13 @@ public class SetCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) {
+
+        ValueWithExpiry existing = store.get(cmd.key);
+
+        if (existing != null && existing.type != ValueType.STRING) {
+            writer.println("❌ Type conflict: key '" + cmd.key + "' holds a " + existing.type + " value.");
+            return;
+        }
 
         ValueWithExpiry value = (cmd.ttlSeconds != null && cmd.ttlSeconds != Long.MAX_VALUE)
                 ? new ValueWithExpiry(cmd.value, cmd.ttlSeconds)

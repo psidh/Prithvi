@@ -37,7 +37,11 @@ public class SaveCommand implements CommandExecutor {
                         continue;
                     }
                     String key = escapeJson(entry.getKey());
-                    String value = escapeJson(entry.getValue().value);
+                    if (!(data.value instanceof String)) {
+                        continue;
+                    }
+                    String value = escapeJson((String) data.value);
+
                     long expiry = entry.getValue().expiryTimestamp;
 
                     fileWriter.write("  \"" + key + "\": {\n");
