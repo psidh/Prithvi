@@ -65,25 +65,28 @@ These instructions will get you a copy of the project up and running on your loc
 
 Once the server is running, you can connect to it using a client (e.g., `nc` or a simple TCP client program) on port `1902` and issue the following commands:
 
-| Command Syntax                   | Description                                                          |
-| :------------------------------- | :------------------------------------------------------------------- |
-| `SET <key> <value>`              | Stores a string `value` associated with `key`.                       |
-| `SET <key> <value> EX <seconds>` | Stores `value` with `key` that expires after `<seconds>`.            |
-| `GET <key>`                      | Retrieves the `value` and its expiry information for `key`.          |
-| `DEL <key>`                      | Deletes the specified `key` from the store.                          |
-| `EXISTS <key>`                   | Checks if `key` exists in the store.                                 |
-| `LPUSH <key> <value>`            | Pushes `value` onto the left end of a list identified by `key`.      |
-| `RPUSH <key> <value>`            | Pushes `value` onto the right end of a list identified by `key`.     |
-| `LPOP <key>`                     | Removes and returns the element from the left end of a list.         |
-| `RPOP <key>`                     | Removes and returns the element from the right end of a list.        |
-| `GETLIST <key>`                  | Displays all elements in the list associated with `key`.             |
-| `KEYS`                           | Lists all keys currently in the store with their expiry.             |
-| `FLUSH`                          | Clears all keys from the store, requires confirmation.               |
-| `FLUSH FALL`                     | Clears all keys from the store without confirmation.                 |
-| `SAVE`                           | Explicitly persists the current state of the store to disk.          |
-| `LOAD`                           | Loads the store state from disk, overwriting current in-memory data. |
-| `QUIT`                           | Gracefully closes the client connection.                             |
-| `HELP`                           | Displays a quick reference of all available commands.                |
+| Command Syntax                   | Description                                                           |
+| :------------------------------- | :-------------------------------------------------------------------- |
+| `SET <key> <value>`              | Stores a string `value` associated with `key`.                        |
+| `SET <key> <value> EX <seconds>` | Stores `value` with `key` that expires after `<seconds>`.             |
+| `GET <key>`                      | Retrieves the `value` and its expiry information for `key`.           |
+| `DEL <key>`                      | Deletes the specified `key` from the store.                           |
+| `EXISTS <key>`                   | Checks if `key` exists in the store.                                  |
+| `SADD <key> <value>`             | Adds `value` to a Set identified by `key`. Creates new Set if needed. |
+| `SMEMBERS <key>`                 | Lists all members of the Set stored at `key`.                         |
+| `SREM <key> <value>`             | Removes `value` from the Set identified by `key`.                     |
+| `LPUSH <key> <value>`            | Pushes `value` onto the left end of a list identified by `key`.       |
+| `RPUSH <key> <value>`            | Pushes `value` onto the right end of a list identified by `key`.      |
+| `LPOP <key>`                     | Removes and returns the element from the left end of a list.          |
+| `RPOP <key>`                     | Removes and returns the element from the right end of a list.         |
+| `GETLIST <key>`                  | Displays all elements in the list associated with `key`.              |
+| `KEYS`                           | Lists all keys currently in the store with their expiry.              |
+| `FLUSH`                          | Clears all keys from the store, requires confirmation.                |
+| `FLUSH FALL`                     | Clears all keys from the store without confirmation.                  |
+| `SAVE`                           | Explicitly persists the current state of the store to disk.           |
+| `LOAD`                           | Loads the store state from disk, overwriting current in-memory data.  |
+| `QUIT`                           | Gracefully closes the client connection.                              |
+| `HELP`                           | Displays a quick reference of all available commands.                 |
 
 ---
 
