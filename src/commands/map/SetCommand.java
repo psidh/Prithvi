@@ -21,7 +21,7 @@ public class SetCommand implements CommandExecutor {
         ValueWithExpiry existing = store.get(cmd.key);
 
         if (existing != null && existing.type != ValueType.STRING) {
-            writer.println(" Type conflict: key '" + cmd.key + "' holds a " + existing.type + " value.");
+            writer.println("Type conflict: key '" + cmd.key + "' holds a " + existing.type + " value.");
             return;
         }
 

@@ -1,6 +1,7 @@
 package src.db;
 
 import java.util.Deque;
+import java.util.Set;
 
 public class ValueWithExpiry {
     public final Object value;
@@ -24,7 +25,15 @@ public class ValueWithExpiry {
     public ValueWithExpiry(Object value, ValueType type) {
         this.value = value;
         this.expiryTimestamp = Long.MAX_VALUE;
-        this.type = ValueType.LIST;
+        this.type = type;
+    }
+
+    public ValueWithExpiry(Object value, ValueType type, long ttlSeconds) {
+        this.value = value;
+        this.type = type;
+        this.expiryTimestamp = (ttlSeconds == Long.MAX_VALUE)
+                ? Long.MAX_VALUE
+                : System.currentTimeMillis() + ttlSeconds * 1000;
     }
 
     public boolean isExpired() {
@@ -34,6 +43,11 @@ public class ValueWithExpiry {
     @SuppressWarnings("unchecked")
     public Deque<String> getList() {
         return (Deque<String>) value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Set<Object> getSet() {
+        return (Set<Object>) value;
     }
 
     public String getString() {

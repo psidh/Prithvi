@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import src.commands.common.*;
 import src.commands.map.*;
 import src.commands.queue.*;
+import src.commands.set.*;
 import src.commands.utils.*;
 import src.db.Store;
 import java.util.Map.Entry;
@@ -37,7 +38,10 @@ public class ClientHandler implements Runnable {
             entry(Command.Type.RPUSH, new RPushCommand()),
             entry(Command.Type.RPOP, new RPopCommand()),
             entry(Command.Type.LPOP, new LPopCommand()),
-            entry(Command.Type.GETLIST, new GETLISTCommand()));
+            entry(Command.Type.GETLIST, new GETLISTCommand()),
+            entry(Command.Type.SADD, new SAddCommand()),
+            entry(Command.Type.SMEMBERS, new SMembersCommand()),
+            entry(Command.Type.SREM, new SRemCommand()));
 
     private static <K, V> Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);

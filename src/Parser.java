@@ -34,8 +34,16 @@ public class Parser {
                 } else {
                     return Command.unknown();
                 }
+            case SADD:
+                if (parts.length >= 3) {
+                    String values = String.join(" ", java.util.Arrays.copyOfRange(parts, 2, parts.length));
+                    return new Command(type, parts[1], values);
+                } else {
+                    return Command.unknown();
+                }
 
             case GET:
+            case SMEMBERS:
             case GETLIST:
                 return (parts.length == 2)
                         ? new Command(type, parts[1], null)
@@ -67,6 +75,7 @@ public class Parser {
             case RPUSH:
             case LPOP:
             case RPOP:
+            case SREM:
                 return (parts.length == 3)
                         ? new Command(type, parts[1], parts[2])
                         : Command.unknown();
