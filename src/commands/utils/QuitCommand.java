@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,10 +18,10 @@ public class QuitCommand implements CommandExecutor {
 
         String line = reader.readLine();
         if ("YES".equalsIgnoreCase(line.trim())) {
-            writer.println("👋 Goodbye! Connection closed.");
+            writer.println("Goodbye! Connection closed.");
             throw new QuitException();
         } else {
-            writer.println("❌ Quit aborted.");
+            writer.println("Quit aborted.");
         }
     }
 }

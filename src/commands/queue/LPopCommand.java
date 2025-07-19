@@ -2,7 +2,6 @@ package src.commands.queue;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,12 +18,12 @@ public class LPopCommand implements CommandExecutor {
         ValueWithExpiry existing = store.get(cmd.key);
 
         if (existing == null) {
-            writer.println("❌ Key not found.");
+            writer.println(" Key not found.");
             return;
         }
 
         if (existing.type != ValueType.LIST) {
-            writer.println("❌ Type mismatch: Expected LIST but found " + existing.type);
+            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
             return;
         }
 
@@ -33,9 +32,9 @@ public class LPopCommand implements CommandExecutor {
         String popped = list.pollFirst(); // Correct usage
 
         if (popped == null) {
-            writer.println("⚠️ List is empty.");
+            writer.println(" List is empty.");
         } else {
-            writer.println("✅ LPOP: " + popped);
+            writer.println(" LPOP: " + popped);
         }
     }
 }

@@ -2,7 +2,7 @@ package src.db;
 
 import java.io.PrintWriter;
 
-import src.commands.SaveCommand;
+import src.commands.utils.SaveCommand;
 
 public class AutoSaveTask implements Runnable {
     private final int intervalSeconds;

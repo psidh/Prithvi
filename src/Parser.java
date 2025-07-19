@@ -36,7 +36,7 @@ public class Parser {
                 }
 
             case GET:
-            case GQ:
+            case GETLIST:
                 return (parts.length == 2)
                         ? new Command(type, parts[1], null)
                         : Command.unknown();

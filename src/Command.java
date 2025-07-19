@@ -3,7 +3,7 @@ package src;
 public class Command {
     public enum Type {
         SET, GET, DEL, UNKNOWN, FLUSH, EXISTS, LISTALL, SAVE, LOAD, QUIT, FLUSHALL, HELP, INFO, LPUSH, RPUSH, LPOP,
-        RPOP, GQ;
+        RPOP, GETLIST, HSET, HGET, HDEL, HGETALL, SADD, SREM, SMEMBERS;
 
         public static Type fromString(String s) {
             try {

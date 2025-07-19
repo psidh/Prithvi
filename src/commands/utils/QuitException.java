@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.utils;
 
 public class QuitException extends RuntimeException {
     public QuitException() {

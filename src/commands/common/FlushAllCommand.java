@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class FlushAllCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
         if (store.isEmpty()) {
-            writer.println("⚠️ Database is empty. Set a value first");
+            writer.println(" Database is empty. Set a value first");
             return;
         }
         store.clear();

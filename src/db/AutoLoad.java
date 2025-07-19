@@ -2,7 +2,7 @@ package src.db;
 
 import java.io.PrintWriter;
 
-import src.commands.LoadCommand;
+import src.commands.utils.LoadCommand;
 
 public class AutoLoad implements Runnable {
     @Override

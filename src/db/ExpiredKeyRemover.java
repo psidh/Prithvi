@@ -35,7 +35,7 @@ public class ExpiredKeyRemover implements Runnable {
                 }
 
             } catch (Exception e) {
-                System.err.println("⚠️ ExpiredKeyRemover failed: " + e.getMessage());
+                System.err.println(" ExpiredKeyRemover failed: " + e.getMessage());
             }
         }
     }

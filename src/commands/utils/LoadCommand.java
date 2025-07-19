@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,7 +24,7 @@ public class LoadCommand implements CommandExecutor {
             ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
-            writer.println("❌ Failed to load: File not found");
+            writer.println(" Failed to load: File not found");
             return;
         }
 
@@ -38,7 +38,7 @@ public class LoadCommand implements CommandExecutor {
 
         String json = rawJson.toString().trim();
         if (!json.startsWith("{") || !json.endsWith("}")) {
-            writer.println("❌ Invalid JSON structure");
+            writer.println(" Invalid JSON structure");
             return;
         }
 
@@ -61,7 +61,7 @@ public class LoadCommand implements CommandExecutor {
             writer.println("There are no keys in the store");
             return;
         }
-        writer.println("✅ Loaded " + loadedCount + " key(s) into memory.");
+        writer.println(" Loaded " + loadedCount + " key(s) into memory.");
     }
 
     private String unescape(String str) {

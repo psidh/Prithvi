@@ -24,13 +24,13 @@ public class LPushCommand implements CommandExecutor {
             ValueWithExpiry newVal = new ValueWithExpiry(list, ValueType.LIST);
             store.put(cmd.key, newVal);
         } else if (existing.type != ValueType.LIST) {
-            writer.println("❌ Type mismatch: Expected LIST but found " + existing.type);
+            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
             return;
         } else {
             list = (Deque<String>) existing.value;
         }
 
         list.addFirst(cmd.value);
-        writer.println("✅ LPUSH: " + cmd.key + " <-> " + cmd.value);
+        writer.println(" LPUSH: " + cmd.key + " <-> " + cmd.value);
     }
 }

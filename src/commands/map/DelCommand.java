@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.map;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;

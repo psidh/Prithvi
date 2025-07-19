@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.common;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -21,9 +21,14 @@ public class HelpCommand implements CommandExecutor {
         writer.println("GET <key>                        → Retrieve value and expiry for a key");
         writer.println("DEL <key>                        → Delete a specific key");
         writer.println("EXISTS <key>                     → Check if a key exists");
+        writer.println("LPUSH <key>                      → Pushes data into a Double Ended queue from the left");
+        writer.println("RPUSH <key>                      → Pushes data into a Double Ended queue from the right");
+        writer.println("RPOP <key>                       → Pops data from a Double Ended queue from the right");
+        writer.println("LPOP <key>                       → Pops data from a Double Ended queue from the left");
+        writer.println("GETLIST <key>                    → Shows Keys for the available list in the store");
         writer.println("KEYS                             → List all keys in the store");
         writer.println("FLUSH                            → Clear all keys (with confirmation)");
-        writer.println("FLUSH FALL                      → Clear all keys without confirmation");
+        writer.println("FLUSH FALL                       → Clear all keys without confirmation");
         writer.println("SAVE                             → Persist current store to disk");
         writer.println("LOAD                             → Load store from disk");
         writer.println("QUIT                             → Gracefully close client connection");

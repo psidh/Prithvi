@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -56,11 +56,11 @@ public class SaveCommand implements CommandExecutor {
                 }
 
                 fileWriter.write("}");
-                writer.println("✅ Store saved to disk.");
+                writer.println("Store saved to disk.");
             }
 
         } catch (IOException e) {
-            writer.println("❌ Failed to save: " + e.getMessage());
+            writer.println("Failed to save: " + e.getMessage());
         }
     }
 

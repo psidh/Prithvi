@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -8,8 +8,10 @@ import java.net.Socket;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import src.commands.*;
+import src.commands.common.*;
+import src.commands.map.*;
 import src.commands.queue.*;
+import src.commands.utils.*;
 import src.db.Store;
 import java.util.Map.Entry;
 import src.db.ValueWithExpiry;
@@ -35,7 +37,7 @@ public class ClientHandler implements Runnable {
             entry(Command.Type.RPUSH, new RPushCommand()),
             entry(Command.Type.RPOP, new RPopCommand()),
             entry(Command.Type.LPOP, new LPopCommand()),
-            entry(Command.Type.GQ, new GQCommand()));
+            entry(Command.Type.GETLIST, new GETLISTCommand()));
 
     private static <K, V> Entry<K, V> entry(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);
@@ -70,7 +72,7 @@ public class ClientHandler implements Runnable {
                     Persistence : True
                     Security    : No auth
 
-                    ⚠️  Warning: This is an experimental build.
+                      Warning: This is an experimental build.
                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                     """);
 
@@ -100,7 +102,7 @@ public class ClientHandler implements Runnable {
         }
 
         catch (Exception e) {
-            System.err.println("⚠️ Error handling client: " + e.getMessage());
+            System.err.println(" Error handling client: " + e.getMessage());
         } finally {
             try {
                 clientSocket.close();

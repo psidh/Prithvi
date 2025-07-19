@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,18 +14,18 @@ public class FlushCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
         if (store.isEmpty()) {
-            writer.println("⚠️ Database is empty. Set a value first");
+            writer.println("Database is empty. Set a value first");
             return;
         }
 
-        writer.println("⚠️ WARNING: This will delete all keys. Type YES to confirm.");
+        writer.println("WARNING: This will delete all keys. Type YES to confirm.");
         String confirmation = reader.readLine();
 
         if ("YES".equalsIgnoreCase(confirmation)) {
             store.clear();
-            writer.println("✅ Store flushed.");
+            writer.println("Store flushed.");
         } else {
-            writer.println("❌ FLUSH aborted.");
+            writer.println("FLUSH aborted.");
         }
     }
 }

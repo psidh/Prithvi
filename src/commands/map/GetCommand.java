@@ -1,4 +1,4 @@
-package src.commands;
+package src.commands.map;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -27,24 +27,24 @@ public class GetCommand implements CommandExecutor {
         }
 
         if (v.type != ValueType.STRING) {
-            writer.println("❌ Type mismatch: Expected STRING, found " + v.type);
+            writer.println(" Type mismatch: Expected STRING, found " + v.type);
             return;
         }
 
-        writer.println("Value: " + v.getString());
-
         if (v == null || v.isExpired()) {
-            store.remove(cmd.key); // Clean up if expired
+            store.remove(cmd.key);
             writer.println("nil");
         } else {
             writer.println("Value: " + v.value);
-            if (v.expiryTimestamp != Long.MAX_VALUE) {
+            if (v.expiryTimestamp == Long.MAX_VALUE
+                    || Instant.ofEpochMilli(v.expiryTimestamp).atZone(ZoneId.systemDefault()).getYear() > 9999) {
+                writer.println("Expiry: Never");
+            } else {
                 String formattedExpiry = Instant.ofEpochMilli(v.expiryTimestamp)
                         .atZone(ZoneId.systemDefault())
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 writer.println("Expiry: " + formattedExpiry);
-            } else {
-                writer.println("Expiry: Never");
+
             }
         }
     }

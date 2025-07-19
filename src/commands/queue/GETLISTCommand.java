@@ -10,7 +10,7 @@ import src.CommandExecutor;
 import src.db.ValueType;
 import src.db.ValueWithExpiry;
 
-public class GQCommand implements CommandExecutor {
+public class GETLISTCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             ConcurrentHashMap<String, ValueWithExpiry> store) {
@@ -18,12 +18,12 @@ public class GQCommand implements CommandExecutor {
         ValueWithExpiry existing = store.get(cmd.key);
 
         if (existing == null) {
-            writer.println("❌ Key not found.");
+            writer.println(" Key not found.");
             return;
         }
 
         if (existing.type != ValueType.LIST) {
-            writer.println("❌ Type mismatch: Expected LIST but found " + existing.type);
+            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
             return;
         }
 

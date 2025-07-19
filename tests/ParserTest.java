@@ -32,9 +32,9 @@ public class ParserTest {
                 safeEquals(cmd.value, expectedValue);
 
         if (pass) {
-            System.out.println("✅ PASS: " + input);
+            System.out.println(" PASS: " + input);
         } else {
-            System.out.println("❌ FAIL: " + input);
+            System.out.println(" FAIL: " + input);
             System.out.println(
                     "    Expected -> type: " + expectedType + ", key: " + expectedKey + ", value: " + expectedValue);
             System.out.println("    Got      -> type: " + cmd.type + ", key: " + cmd.key + ", value: " + cmd.value);
