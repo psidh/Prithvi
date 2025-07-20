@@ -1,5 +1,7 @@
 # Prithvi: A Key-Value Database
 
+![alt text](assets/Prithvi.png)
+
 Prithvi is an in-memory key-value database built from scratch in Java, without relying on external frameworks. It provides basic data storage operations, persistence to disk, and essential features like TTL (Time-To-Live) expiry and automatic data management.
 
 ---
