@@ -16,21 +16,30 @@ public class RPushCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry existing = store.get(cmd.key);
-        Deque<String> list;
-
-        if (existing == null) {
-            list = new ArrayDeque<>();
-            ValueWithExpiry newVal = new ValueWithExpiry(list, ValueType.LIST);
-            store.put(cmd.key, newVal);
-        } else if (existing.type != ValueType.LIST) {
-            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
-            return;
-        } else {
-            list = (Deque<String>) existing.value;
+        ValueWithExpiry existing;
+        synchronized (store) {
+            existing = store.get(cmd.key);
         }
 
-        list.addLast(cmd.value);
+        Deque<String> list;
+
+        synchronized (store) {
+            if (existing == null) {
+                list = new ArrayDeque<>();
+                ValueWithExpiry newVal = new ValueWithExpiry(list, ValueType.LIST);
+                store.put(cmd.key, newVal);
+            } else if (existing.type != ValueType.LIST) {
+                writer.println(" Type mismatch: Expected LIST but found " + existing.type);
+                return;
+            } else {
+                list = (Deque<String>) existing.value;
+            }
+        }
+
+        synchronized (list) {
+            list.addLast(cmd.value);
+        }
+
         writer.println(" LPUSH: " + cmd.key + " <-> " + cmd.value);
     }
 }

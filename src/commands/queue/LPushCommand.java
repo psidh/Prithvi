@@ -15,22 +15,26 @@ public class LPushCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
-
-        ValueWithExpiry existing = store.get(cmd.key);
+        ValueWithExpiry existing;
         Deque<String> list;
+        synchronized (store) {
+            existing = store.get(cmd.key);
 
-        if (existing == null) {
-            list = new ArrayDeque<>();
-            ValueWithExpiry newVal = new ValueWithExpiry(list, ValueType.LIST);
-            store.put(cmd.key, newVal);
-        } else if (existing.type != ValueType.LIST) {
-            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
-            return;
-        } else {
-            list = (Deque<String>) existing.value;
+            if (existing == null) {
+                list = new ArrayDeque<>();
+                ValueWithExpiry newVal = new ValueWithExpiry(list, ValueType.LIST);
+                store.put(cmd.key, newVal);
+            } else if (existing.type != ValueType.LIST) {
+                writer.println(" Type mismatch: Expected LIST but found " + existing.type);
+                return;
+            } else {
+                list = (Deque<String>) existing.value;
+            }
+
         }
-
-        list.addFirst(cmd.value);
+        synchronized (store) {
+            list.addFirst(cmd.value);
+        }
         writer.println(" LPUSH: " + cmd.key + " <-> " + cmd.value);
     }
 }

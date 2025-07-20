@@ -15,22 +15,23 @@ public class GETLISTCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry existing = store.get(cmd.key);
+        synchronized (store) {
+            ValueWithExpiry existing = store.get(cmd.key);
+            if (existing == null) {
+                writer.println(" Key not found.");
+                return;
+            }
 
-        if (existing == null) {
-            writer.println(" Key not found.");
-            return;
-        }
+            if (existing.type != ValueType.LIST) {
+                writer.println(" Type mismatch: Expected LIST but found " + existing.type);
+                return;
+            }
 
-        if (existing.type != ValueType.LIST) {
-            writer.println(" Type mismatch: Expected LIST but found " + existing.type);
-            return;
-        }
+            Deque<String> list = (Deque<String>) existing.value;
 
-        Deque<String> list = (Deque<String>) existing.value;
-
-        for (String item : list) {
-            writer.print(item + " <-> ");
+            for (String item : list) {
+                writer.print(item + " <-> ");
+            }
         }
         writer.println("nil");
     }

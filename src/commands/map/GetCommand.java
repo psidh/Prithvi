@@ -18,12 +18,16 @@ public class GetCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry v = store.get(cmd.key);
+        ValueWithExpiry v;
 
-        if (v == null || v.isExpired()) {
-            store.remove(cmd.key);
-            writer.println("nil");
-            return;
+        synchronized (store) {
+            v = store.get(cmd.key);
+
+            if (v == null || v.isExpired()) {
+                store.remove(cmd.key);
+                writer.println("nil");
+                return;
+            }
         }
 
         if (v.type != ValueType.STRING) {
@@ -31,21 +35,16 @@ public class GetCommand implements CommandExecutor {
             return;
         }
 
-        if (v == null || v.isExpired()) {
-            store.remove(cmd.key);
-            writer.println("nil");
-        } else {
-            writer.println("Value: " + v.value);
-            if (v.expiryTimestamp == Long.MAX_VALUE
-                    || Instant.ofEpochMilli(v.expiryTimestamp).atZone(ZoneId.systemDefault()).getYear() > 9999) {
-                writer.println("Expiry: Never");
-            } else {
-                String formattedExpiry = Instant.ofEpochMilli(v.expiryTimestamp)
-                        .atZone(ZoneId.systemDefault())
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                writer.println("Expiry: " + formattedExpiry);
+        writer.println("Value: " + v.value);
 
-            }
+        if (v.expiryTimestamp == Long.MAX_VALUE
+                || Instant.ofEpochMilli(v.expiryTimestamp).atZone(ZoneId.systemDefault()).getYear() > 9999) {
+            writer.println("Expiry: Never");
+        } else {
+            String formattedExpiry = Instant.ofEpochMilli(v.expiryTimestamp)
+                    .atZone(ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            writer.println("Expiry: " + formattedExpiry);
         }
     }
 }

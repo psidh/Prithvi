@@ -18,18 +18,21 @@ public class SetCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry existing = store.get(cmd.key);
+        ValueWithExpiry existing;
+        ValueWithExpiry value;
+        synchronized (store) {
+            existing = store.get(cmd.key);
+            if (existing != null && existing.type != ValueType.STRING) {
+                writer.println("Type conflict: key '" + cmd.key + "' holds a " + existing.type + " value.");
+                return;
+            }
 
-        if (existing != null && existing.type != ValueType.STRING) {
-            writer.println("Type conflict: key '" + cmd.key + "' holds a " + existing.type + " value.");
-            return;
+            value = (cmd.ttlSeconds != null && cmd.ttlSeconds != Long.MAX_VALUE)
+                    ? new ValueWithExpiry(cmd.value, cmd.ttlSeconds)
+                    : new ValueWithExpiry(cmd.value);
+
+            store.put(cmd.key, value);
         }
-
-        ValueWithExpiry value = (cmd.ttlSeconds != null && cmd.ttlSeconds != Long.MAX_VALUE)
-                ? new ValueWithExpiry(cmd.value, cmd.ttlSeconds)
-                : new ValueWithExpiry(cmd.value);
-
-        store.put(cmd.key, value);
         writer.print("Key : " + cmd.key + " : " + value.value);
         writer.println();
 

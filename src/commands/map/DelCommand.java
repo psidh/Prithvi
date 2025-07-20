@@ -13,20 +13,20 @@ public class DelCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry entry = store.get(cmd.key);
+        String message;
+        synchronized (store) {
+            ValueWithExpiry entry = store.get(cmd.key);
 
-        if (entry == null) {
-            writer.println("Key-Value doesn't exist.");
-            return;
+            if (entry == null) {
+                message = "Key-Value doesn't exist.";
+            } else if (entry.isExpired()) {
+                store.remove(cmd.key);
+                message = "Key-Value was expired and removed.";
+            } else {
+                store.remove(cmd.key);
+                message = "Removed Key : " + cmd.key;
+            }
         }
-
-        if (entry.isExpired()) {
-            store.remove(cmd.key);
-            writer.println("Key-Value was expired and removed.");
-            return;
-        }
-
-        store.remove(cmd.key);
-        writer.println("Removed Key : " + cmd.key);
+        writer.println(message);
     }
 }

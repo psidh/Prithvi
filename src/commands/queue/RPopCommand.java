@@ -15,7 +15,11 @@ public class RPopCommand implements CommandExecutor {
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) {
 
-        ValueWithExpiry existing = store.get(cmd.key);
+        ValueWithExpiry existing;
+
+        synchronized (store) {
+            existing = store.get(cmd.key);
+        }
 
         if (existing == null) {
             writer.println(" Key not found.");
@@ -28,8 +32,10 @@ public class RPopCommand implements CommandExecutor {
         }
 
         Deque<String> list = (Deque<String>) existing.value;
-
-        String popped = list.pollLast(); // Correct usage
+        String popped;
+        synchronized (list) {
+            popped = list.pollLast(); // Correct usage
+        }
 
         if (popped == null) {
             writer.println(" List is empty.");

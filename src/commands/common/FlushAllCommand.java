@@ -13,10 +13,12 @@ public class FlushAllCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
             Map<String, ValueWithExpiry> store) throws IOException {
-        if (store.isEmpty()) {
-            writer.println(" Database is empty. Set a value first");
-            return;
+        synchronized (store) {
+            if (store.isEmpty()) {
+                writer.println(" Database is empty. Set a value first");
+                return;
+            }
+            store.clear();
         }
-        store.clear();
     }
 }

@@ -20,14 +20,17 @@ public class ExistsCommand implements CommandExecutor {
             writer.println("No keys found in the database.");
             return;
         }
+        ValueWithExpiry v;
+        synchronized (store) {
+            v = store.get(cmd.key);
 
-        ValueWithExpiry v = store.get(cmd.key);
-        if (v == null || v.isExpired()) {
-            writer.println("Key does not exist");
-        } else {
-            writer.println("Key exists");
-            writer.println("KEY: " + cmd.key);
-            writer.println("VALUE: " + v.value);
+            if (v == null || v.isExpired()) {
+                writer.println("Key does not exist");
+            } else {
+                writer.println("Key exists");
+                writer.println("KEY: " + cmd.key);
+                writer.println("VALUE: " + v.value);
+            }
         }
     }
 }

@@ -28,13 +28,14 @@ public class LPopCommand implements CommandExecutor {
         }
 
         Deque<String> list = (Deque<String>) existing.value;
+        synchronized (store) {
+            String popped = list.pollFirst(); // Correct usage
 
-        String popped = list.pollFirst(); // Correct usage
-
-        if (popped == null) {
-            writer.println(" List is empty.");
-        } else {
-            writer.println(" LPOP: " + popped);
+            if (popped == null) {
+                writer.println(" List is empty.");
+            } else {
+                writer.println(" LPOP: " + popped);
+            }
         }
     }
 }
