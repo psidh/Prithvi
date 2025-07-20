@@ -56,30 +56,6 @@ public class ClientHandler implements Runnable {
         try (
                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
-
-            writer.println("""
-
-
-                     ██████╗ ██████╗ ██╗████████╗██╗  ██╗██╗   ██╗██╗
-                     ██╔══██╗██╔══██╗██║╚══██╔══╝██║  ██║██║   ██║██║
-                     ██████╔╝██████╔╝██║   ██║   ███████║██║   ██║██║
-                     ██╔═══╝ ██╔══██╗██║   ██║   ██╔══██║╚██╗ ██╔╝██║
-                     ██║     ██║  ██║██║   ██║   ██║  ██║ ╚████╔╝ ██║
-                     ╚═╝     ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝  ╚═══╝  ╚═╝
-
-                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                    Prithvi     : Lightweight Key-Value Store (Alpha)
-                    Author      : Philkhana Sidharth
-                    Language    : Java (no frameworks)
-                    Port        :  1902
-                    Launched    : 14 Jul 2025
-                    Persistence : True
-                    Security    : No auth
-
-                      Warning: This is an experimental build.
-                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                    """);
-
             writer.println("🚀 PrithviServer listening on port 1902");
             Parser parser = new Parser(reader);
 
