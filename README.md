@@ -28,6 +28,7 @@ Prithvi offers a core set of functionalities for a lightweight key-value databas
 - **In-Memory Key-Value Storage**: Pure Java implementation for efficient in-memory data handling.
 - **Data Types**: Supports string values for keys, and also includes basic list (deque) operations.
 - **Time-To-Live (TTL) Expiry**: Keys can be set with an expiration time, after which they are automatically removed.
+- **LRU Cache**: Maintains a `MAX_CAPACITY` of 10,000 keys and uses `LinkedHashMap` to evict elderly keys after threshold is reached. Load Factor is 0.75f.
 - **Persistence to Disk**: Stores data to a JSON-based file (`data/store.json`) allowing data to survive server restarts.
 - **Auto-Save & Auto-Load**: Configurable periodic saving of the store to disk and automatic loading on server startup.
 - **Automatic Expired Key Removal**: A background task periodically cleans up expired keys.
