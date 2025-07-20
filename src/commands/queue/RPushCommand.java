@@ -4,17 +4,17 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import java.util.Map;
 import src.db.ValueType;
 import src.db.ValueWithExpiry;
 
 public class RPushCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         ValueWithExpiry existing = store.get(cmd.key);
         Deque<String> list;

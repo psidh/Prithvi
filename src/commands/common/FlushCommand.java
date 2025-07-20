@@ -3,16 +3,16 @@ package src.commands.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import java.util.Map;
 import src.db.ValueWithExpiry;
 
 public class FlushCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
+            Map<String, ValueWithExpiry> store) throws IOException {
         if (store.isEmpty()) {
             writer.println("Database is empty. Set a value first");
             return;

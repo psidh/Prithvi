@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentHashMap;
+
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +22,7 @@ public class LoadCommand implements CommandExecutor {
 
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
+            Map<String, ValueWithExpiry> store) throws IOException {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             writer.println(" Failed to load: File not found");

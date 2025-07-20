@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
@@ -15,7 +14,7 @@ import src.db.ValueWithExpiry;
 public class ListAllCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
         if (store.isEmpty()) {
             writer.println("No Keys in database");
             return;

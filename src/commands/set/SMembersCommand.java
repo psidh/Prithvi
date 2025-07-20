@@ -3,7 +3,6 @@ package src.commands.set;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
@@ -13,7 +12,7 @@ import src.db.ValueWithExpiry;
 public class SMembersCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         for (Map.Entry<String, ValueWithExpiry> entry : store.entrySet()) {
             ValueWithExpiry value = entry.getValue();

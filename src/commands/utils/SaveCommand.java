@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
@@ -19,7 +18,7 @@ public class SaveCommand implements CommandExecutor {
 
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) throws IOException {
+            Map<String, ValueWithExpiry> store) throws IOException {
         try {
             File dir = new File(DIRECTORY);
             if (!dir.exists())

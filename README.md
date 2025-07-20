@@ -104,7 +104,7 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 ## Architecture & Design Notes
 
 - **No Frameworks**: The project is intentionally built using pure Java APIs to demonstrate fundamental concepts of network programming, concurrency, and data structures.
-- **`ConcurrentHashMap`**: Used as the primary data store to ensure thread-safe operations across multiple client connections.
+- **`Map`**: Used as the primary data store to ensure thread-safe operations across multiple client connections.
 - **Background Tasks**: Two Dedicated threads manage key expiry and auto-saving, keeping the main server loop responsive.
 
 ---

@@ -2,16 +2,16 @@ package src.commands.common;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
 import src.db.ValueWithExpiry;
+import java.util.Map;
 
 public class HelpCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         writer.println("\nPRITHVI COMMANDS — Quick Reference");
         writer.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");

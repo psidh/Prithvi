@@ -4,17 +4,17 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
 import src.db.ValueType;
 import src.db.ValueWithExpiry;
+import java.util.Map;
 
 public class SAddCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         ValueWithExpiry existing = store.get(cmd.key);
 

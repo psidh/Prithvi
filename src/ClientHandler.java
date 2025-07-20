@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.AbstractMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 import src.commands.common.*;
 import src.commands.map.*;
 import src.commands.queue.*;
@@ -19,7 +19,7 @@ import src.db.ValueWithExpiry;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
-    private static final ConcurrentHashMap<String, ValueWithExpiry> store = Store.get();
+    private static final Map<String, ValueWithExpiry> store = Store.get();
 
     private static final Map<Command.Type, CommandExecutor> commandMap = Map.ofEntries(
             entry(Command.Type.SET, new SetCommand()),

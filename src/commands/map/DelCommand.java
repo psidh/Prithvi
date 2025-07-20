@@ -2,16 +2,16 @@ package src.commands.map;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
+import java.util.Map;
 import src.db.ValueWithExpiry;
 
 public class DelCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         ValueWithExpiry entry = store.get(cmd.key);
 

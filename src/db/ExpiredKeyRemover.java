@@ -2,13 +2,12 @@ package src.db;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ExpiredKeyRemover implements Runnable {
     private final int intervalSeconds;
-    private final ConcurrentHashMap<String, ValueWithExpiry> store;
+    private final Map<String, ValueWithExpiry> store;
 
-    public ExpiredKeyRemover(int intervalSeconds, ConcurrentHashMap<String, ValueWithExpiry> map) {
+    public ExpiredKeyRemover(int intervalSeconds, Map<String, ValueWithExpiry> map) {
         this.intervalSeconds = intervalSeconds;
         this.store = map;
     }

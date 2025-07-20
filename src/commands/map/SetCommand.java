@@ -2,11 +2,11 @@ package src.commands.map;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.concurrent.ConcurrentHashMap;
 
 import src.Command;
 import src.CommandExecutor;
 import src.db.ValueType;
+import java.util.Map;
 import src.db.ValueWithExpiry;
 
 import java.time.Instant;
@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 public class SetCommand implements CommandExecutor {
     @Override
     public void execute(Command cmd, PrintWriter writer, BufferedReader reader,
-            ConcurrentHashMap<String, ValueWithExpiry> store) {
+            Map<String, ValueWithExpiry> store) {
 
         ValueWithExpiry existing = store.get(cmd.key);
 
