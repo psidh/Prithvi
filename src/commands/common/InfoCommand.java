@@ -3,9 +3,9 @@ package src.commands.common;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-import src.Command;
-import src.CommandExecutor;
 import src.Prithvi;
+import src.commands.Command;
+import src.commands.CommandExecutor;
 import src.db.ValueWithExpiry;
 import java.util.Map;
 

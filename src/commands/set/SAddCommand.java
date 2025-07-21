@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import src.Command;
-import src.CommandExecutor;
+import src.commands.Command;
+import src.commands.CommandExecutor;
 import src.db.ValueType;
 import src.db.ValueWithExpiry;
 import java.util.Map;

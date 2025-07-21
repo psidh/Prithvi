@@ -1,7 +1,9 @@
-package src.db;
+package src.db.persistence;
 
 import java.util.Iterator;
 import java.util.Map;
+
+import src.db.ValueWithExpiry;
 
 public class ExpiredKeyRemover implements Runnable {
     private final int intervalSeconds;

@@ -3,17 +3,23 @@ package src;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 
+import src.commands.Command;
+import src.commands.CommandExecutor;
+import src.commands.CommandMap;
 import src.commands.utils.SaveCommand;
-import src.db.AutoLoad;
-import src.db.AutoSaveTask;
-import src.db.ExpiredKeyRemover;
 import src.db.Store;
+import src.db.persistence.AutoLoad;
+import src.db.persistence.AutoSaveTask;
+import src.db.persistence.ExpiredKeyRemover;
+import src.db.persistence.WALReplayer;
 import src.metrics.MetricsServer;
 
 public class Prithvi {
     public static final long START_TIME = System.currentTimeMillis();
     private static final int PORT = 1902;
+    private static final Map<Command.Type, CommandExecutor> commandMap = CommandMap.getCommandMap();
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -28,21 +34,24 @@ public class Prithvi {
                      ╚═╝     ╚═╝  ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝  ╚═══╝  ╚═╝
 
                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-                    Prithvi     : Lightweight Key-Value Store (Alpha)
+                    Prithvi     : Lightweight Key-Value Database (Alpha)
                     Author      : Philkhana Sidharth
                     Language    : Java (no frameworks)
-                    Port        :  1902
+                    Port        : 1902
                     Launched    : 14 Jul 2025
                     Persistence : True
-                    Security    : No auth
+                    Security    : JWT Token SHA-256 (BASIC)
 
                       Warning: This is an experimental build.
                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                     """);
 
             System.out.println("🚀 PrithviServer listening on port " + PORT);
-            MetricsServer.start(9100);
 
+            WALReplayer replayer = new WALReplayer(commandMap);
+
+            replayer.replay();
+            MetricsServer.start(9100);
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("\n--Caught SIGINT (Ctrl+C). Saving store to disk...");

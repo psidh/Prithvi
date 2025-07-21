@@ -1,7 +1,7 @@
 package tests;
 
-import src.Command;
 import src.Parser;
+import src.commands.Command;
 
 import java.io.BufferedReader;
 import java.io.StringReader;

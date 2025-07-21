@@ -1,8 +1,9 @@
-package src.db;
+package src.db.persistence;
 
 import java.io.PrintWriter;
 
 import src.commands.utils.SaveCommand;
+import src.db.Store;
 
 public class AutoSaveTask implements Runnable {
     private final int intervalSeconds;

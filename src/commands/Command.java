@@ -1,4 +1,4 @@
-package src;
+package src.commands;
 
 public class Command {
     public enum Type {

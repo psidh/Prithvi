@@ -5,18 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.AbstractMap;
 import java.util.Map;
 
 import src.auth.JWTAuth;
-import src.commands.common.*;
-import src.commands.map.*;
-import src.commands.queue.*;
-import src.commands.set.*;
+import src.commands.*;
 import src.commands.utils.*;
 import src.db.Store;
-import java.util.Map.Entry;
 import src.db.ValueWithExpiry;
+import src.db.persistence.WALManager;
 import src.metrics.MetricsCollector;
 
 public class ClientHandler implements Runnable {
@@ -25,31 +21,7 @@ public class ClientHandler implements Runnable {
     String currentToken = null;
     boolean isAuthenticated = false;
 
-    private static final Map<Command.Type, CommandExecutor> commandMap = Map.ofEntries(
-            entry(Command.Type.SET, new SetCommand()),
-            entry(Command.Type.GET, new GetCommand()),
-            entry(Command.Type.DEL, new DelCommand()),
-            entry(Command.Type.FLUSH, new FlushCommand()),
-            entry(Command.Type.EXISTS, new ExistsCommand()),
-            entry(Command.Type.LISTALL, new ListAllCommand()),
-            entry(Command.Type.SAVE, new SaveCommand()),
-            entry(Command.Type.LOAD, new LoadCommand()),
-            entry(Command.Type.QUIT, new QuitCommand()),
-            entry(Command.Type.FLUSHALL, new FlushAllCommand()),
-            entry(Command.Type.HELP, new HelpCommand()),
-            entry(Command.Type.INFO, new InfoCommand()),
-            entry(Command.Type.LPUSH, new LPushCommand()),
-            entry(Command.Type.RPUSH, new RPushCommand()),
-            entry(Command.Type.RPOP, new RPopCommand()),
-            entry(Command.Type.LPOP, new LPopCommand()),
-            entry(Command.Type.GETLIST, new GETLISTCommand()),
-            entry(Command.Type.SADD, new SAddCommand()),
-            entry(Command.Type.SMEMBERS, new SMembersCommand()),
-            entry(Command.Type.SREM, new SRemCommand()));
-
-    private static <K, V> Entry<K, V> entry(K key, V value) {
-        return new AbstractMap.SimpleEntry<>(key, value);
-    }
+    private static final Map<Command.Type, CommandExecutor> commandMap = CommandMap.getCommandMap();
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
@@ -62,6 +34,7 @@ public class ClientHandler implements Runnable {
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
             writer.println("🚀 PrithviServer listening on port 1902");
             Parser parser = new Parser(reader);
+            WALManager walManager = WALManager.getInstance();
 
             Command cmd;
 
@@ -126,6 +99,24 @@ public class ClientHandler implements Runnable {
                 CommandExecutor executor = commandMap.get(cmd.type);
 
                 if (executor != null) {
+
+                    boolean isWriteCommand = switch (cmd.type) {
+                        case SET, DEL, LPUSH, RPUSH, SADD, SREM, FLUSH, FLUSHALL -> true;
+                        default -> false;
+                    };
+
+                    if (isWriteCommand) {
+                        String rawCommand = cmd.type.toString();
+                        if (cmd.key != null)
+                            rawCommand += " " + cmd.key;
+                        if (cmd.value != null)
+                            rawCommand += " " + cmd.value;
+                        if (cmd.ttlSeconds > 0)
+                            rawCommand += " EX " + cmd.ttlSeconds;
+                        walManager.log(rawCommand);
+                        System.out.println("[WAL] Logged: " + rawCommand);
+                    }
+
                     long start = System.nanoTime();
                     executor.execute(cmd, writer, reader, store);
                     long end = System.nanoTime();

@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import src.Command;
-import src.CommandExecutor;
+import src.commands.Command;
+import src.commands.CommandExecutor;
 import src.db.ValueWithExpiry;
 
 public class LoadCommand implements CommandExecutor {
@@ -62,7 +62,7 @@ public class LoadCommand implements CommandExecutor {
             writer.println("There are no keys in the store");
             return;
         }
-        writer.println(" Loaded " + loadedCount + " key(s) into memory.");
+        writer.println("Loaded " + loadedCount + " key(s) into memory.");
     }
 
     private String unescape(String str) {

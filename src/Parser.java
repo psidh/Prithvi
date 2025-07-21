@@ -3,6 +3,8 @@ package src;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import src.commands.Command;
+
 public class Parser {
     private final BufferedReader reader;
 
@@ -79,6 +81,42 @@ public class Parser {
             case RPOP:
             case SREM:
                 return (parts.length == 3)
+                        ? new Command(type, parts[1], parts[2])
+                        : Command.unknown();
+
+            default:
+                return Command.unknown();
+        }
+    }
+
+    public Command parseRawCommand(String input) {
+        if (input == null || input.isEmpty())
+            return Command.unknown();
+
+        String[] parts = input.trim().split("\\s+", 5);
+        Command.Type type = Command.Type.fromString(parts[0]);
+
+        switch (type) {
+            case SET:
+                if (parts.length == 3) {
+                    return new Command(type, parts[1], parts[2]);
+                } else if (parts.length == 5 && parts[3].equalsIgnoreCase("EX")) {
+                    try {
+                        long ttl = Long.parseLong(parts[4]);
+                        return new Command(type, parts[1], parts[2], ttl);
+                    } catch (NumberFormatException e) {
+                        return Command.unknown();
+                    }
+                } else {
+                    return Command.unknown();
+                }
+
+            case DEL:
+            case LPUSH:
+            case RPUSH:
+            case SADD:
+            case SREM:
+                return (parts.length >= 3)
                         ? new Command(type, parts[1], parts[2])
                         : Command.unknown();
 

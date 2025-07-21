@@ -3,8 +3,8 @@ package src.commands.map;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-import src.Command;
-import src.CommandExecutor;
+import src.commands.Command;
+import src.commands.CommandExecutor;
 import src.db.ValueType;
 import java.util.Map;
 import src.db.ValueWithExpiry;
