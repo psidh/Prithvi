@@ -27,6 +27,10 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 
 ---
 
+#### Tech Stack
+
+[![My Skills](https://skillicons.dev/icons?i=java,prometheus,npm,js,docker)](https://skillicons.dev)
+
 ## Contents
 
 - [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
