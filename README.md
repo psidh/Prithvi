@@ -35,6 +35,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 
 - [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
     - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+      - [Tech Stack](#tech-stack)
   - [Contents](#contents)
   - [Features](#features)
   - [Getting Started](#getting-started)
@@ -43,6 +44,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
   - [Commands](#commands)
   - [Persistence](#persistence)
   - [Architecture \& Design Notes](#architecture--design-notes)
+  - [JavaScript Client SDK](#javascript-client-sdk)
     - [Metrics and Monitoring](#metrics-and-monitoring)
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
   - [Security Warning](#security-warning)
@@ -142,6 +144,17 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 - **No Frameworks**: The project is intentionally built using pure Java APIs to demonstrate fundamental concepts of network programming, concurrency, and data structures.
 - **`Map`**: Used as the primary data store to ensure thread-safe operations across multiple client connections.
 - **Background Tasks**: Two dedicated threads manage key expiry and auto-saving, keeping the main server loop responsive.
+
+<br />
+
+---
+
+## JavaScript Client SDK
+
+A lightweight JavaScript Client SDK is available to interact with Prithvi from browsers or Node.js.
+
+It wraps the custom TCP protocol and exposes async `set`, `get`, `del`, `auth`, and other command helpers.  
+🔗 [Prithvi JS SDK](https://github.com/psidh/prithvi-js-sdk) (Coming Soon)
 
 ---
 
