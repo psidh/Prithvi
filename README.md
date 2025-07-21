@@ -14,7 +14,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 | ------------------ | ---------- | ---------- |
 | Peak TPS (SET+GET) | 169k ops/s | 138k ops/s |
 | Avg Latency (GET)  | 0.61       | 0.72       |
-| Min Latency (ms)   | 0.03       | 0.02       |
+| Min Latency (ms)   | 0.02       | 0.03       |
 | Max Latency (ms)   | 627        | 38         |
 
 > Tested locally on MacBook M1 Air (16 GB RAM) with a custom Java load generator using 100 threads, 100k ops (SET+GET).
@@ -147,12 +147,11 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 
 - **Monitored Stats Include**:
 
-  - Total commands executed
-  - Current store size
-  - Number of active clients
-  - Keys with TTL
-  - Eviction count (LRU triggered)
-  - Save/load count
+  - Total Requests
+  - Total Reads
+  - Total Writes
+  - Total Errors
+  - Average Latency
 
 - **How to Use**:
 
