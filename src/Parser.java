@@ -50,6 +50,8 @@ public class Parser {
                         : Command.unknown();
 
             case DEL:
+            case AUTH:
+            case TOKEN:
                 return (parts.length == 2)
                         ? new Command(type, parts[1], null)
                         : Command.unknown();

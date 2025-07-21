@@ -9,6 +9,7 @@ import src.db.AutoLoad;
 import src.db.AutoSaveTask;
 import src.db.ExpiredKeyRemover;
 import src.db.Store;
+import src.metrics.MetricsServer;
 
 public class Prithvi {
     public static final long START_TIME = System.currentTimeMillis();
@@ -40,6 +41,8 @@ public class Prithvi {
                     """);
 
             System.out.println("🚀 PrithviServer listening on port " + PORT);
+            MetricsServer.start(9100);
+
 
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 System.out.println("\n--Caught SIGINT (Ctrl+C). Saving store to disk...");

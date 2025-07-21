@@ -88,6 +88,8 @@ Once the server is running, you can connect to it using a client (e.g., `nc` or 
 | `FLUSH FALL`                     | Clears all keys from the store without confirmation.                  |
 | `SAVE`                           | Explicitly persists the current state of the store to disk.           |
 | `LOAD`                           | Loads the store state from disk, overwriting current in-memory data.  |
+| `AUTH <username>`                | Authenticates the user and returns a JWT token.                       |
+| `TOKEN <jwt>`                    | Sets the token for the current session for further verification.      |
 | `QUIT`                           | Gracefully closes the client connection.                              |
 | `HELP`                           | Displays a quick reference of all available commands.                 |
 
@@ -114,7 +116,7 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 
 ## Security Warning
 
-**⚠️ Warning**: This is an experimental build and is not intended for production use. It lacks authentication, encryption, and robust error handling typical of production-grade systems. Use with caution.
+**⚠️ Warning**: This is an experimental build and is not intended for production use. It consists of basic authentication, encryption, but lacks robust error handling typical of production-grade systems. Use with caution.
 
 ---
 
