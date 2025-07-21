@@ -2,14 +2,36 @@
 
 ![alt text](assets/Prithvi.png)
 
-Prithvi is an in-memory key-value database built from scratch in Java, without relying on external frameworks. It provides basic data storage operations, persistence to disk, and essential features like TTL (Time-To-Live) expiry and automatic data management.
+**Prithvi** is an in-memory `key-value database` built from scratch in Java, without relying on external frameworks. It provides basic data storage operations, persistence to disk, and essential features like TTL (Time-To-Live) expiry and automatic data management.
+
+### 🧪 Benchmarking vs Redis
+
+We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom load generator simulating `SET`/`GET` operations with random keys.
+
+![Benchmark](/assets/Benchmark.png)
+
+| Metric             | Redis      | Prithvi    |
+| ------------------ | ---------- | ---------- |
+| Peak TPS (SET+GET) | 169k ops/s | 138k ops/s |
+| Avg Latency (GET)  | 0.61       | 0.72       |
+| Min Latency (ms)   | 0.03       | 0.02       |
+| Max Latency (ms)   | 627        | 38         |
+
+> Tested locally on MacBook M1 Air (16 GB RAM) with a custom Java load generator using 100 threads, 100k ops (SET+GET).
+
+> Redis ran with default config (no AOF, no snapshotting); <
+
+> Prithvi ran with WAL enabled, TTL/AutoSave off.
+
+**Note**: Prithvi is NOT ⚠️ optimized with native code or memory pooling like Redis, but performs **strongly** for educational use-cases and mid-scale deployments.
 
 ---
 
-## Table of Contents
+## Contents
 
 - [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
-  - [Table of Contents](#table-of-contents)
+    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+  - [Contents](#contents)
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
@@ -17,6 +39,8 @@ Prithvi is an in-memory key-value database built from scratch in Java, without r
   - [Commands](#commands)
   - [Persistence](#persistence)
   - [Architecture \& Design Notes](#architecture--design-notes)
+    - [Metrics and Monitoring](#metrics-and-monitoring)
+    - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
   - [Security Warning](#security-warning)
   - [License](#license)
   - [Author](#author)
@@ -49,18 +73,21 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Running the Server
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/psidh/Prithvi
-    cd Prithvi
-    ```
-2.  **Compile and run the server:**
-    Run the command
-    ```bash
-    chmod +x run.sh
-    ./run.sh
-    ```
-    The server will start and listen on port `1902`. You will see startup information and the Prithvi ASCII art logo in your console.
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/psidh/Prithvi
+   cd Prithvi
+   ```
+
+2. **Compile and run the server:**
+
+   ```bash
+   chmod +x run.sh
+   ./run.sh
+   ```
+
+   The server will start and listen on port `1902`. You will see startup information and the Prithvi ASCII art logo in your console.
 
 ---
 
@@ -110,7 +137,49 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 
 - **No Frameworks**: The project is intentionally built using pure Java APIs to demonstrate fundamental concepts of network programming, concurrency, and data structures.
 - **`Map`**: Used as the primary data store to ensure thread-safe operations across multiple client connections.
-- **Background Tasks**: Two Dedicated threads manage key expiry and auto-saving, keeping the main server loop responsive.
+- **Background Tasks**: Two dedicated threads manage key expiry and auto-saving, keeping the main server loop responsive.
+
+---
+
+### Metrics and Monitoring
+
+- **Built-in Metrics Dashboard**: Prithvi now exposes an endpoint on **port `9100`** that serves real-time internal metrics in [Prometheus-compatible format](https://prometheus.io/docs/instrumenting/exposition_formats/).
+
+- **Monitored Stats Include**:
+
+  - Total commands executed
+  - Current store size
+  - Number of active clients
+  - Keys with TTL
+  - Eviction count (LRU triggered)
+  - Save/load count
+
+- **How to Use**:
+
+  - Add the following scrape config to your Prometheus YAML:
+
+    ```yaml
+    scrape_configs:
+      - job_name: "prithvi"
+        static_configs:
+          - targets: ["localhost:9100"]
+    ```
+
+---
+
+### Write-Ahead Logging (WAL)
+
+To ensure **durability and crash recovery**, Prithvi uses a WAL system.
+
+- **WALManager**: Logs every mutating command (`SET`, `DEL`, `SADD`, etc.) to `logs/wal.log`.
+- **WALReplayer**: On startup, Prithvi replays the WAL file to reconstruct the exact state prior to crash or shutdown.
+- **How it Works**:
+
+  - WAL is **append-only**
+  - WAL is flushed **before** applying command in memory (write-ahead principle)
+  - On restart, Prithvi checks `wal.log` → replays all valid entries → then loads `store.json`
+
+This makes **persistence + recovery reliable**, even if shutdown was ungraceful.
 
 ---
 
@@ -129,5 +198,3 @@ This project is licensed under the [MIT License](LICENSE)
 ## Author
 
 - **Philkhana Sidharth**
-
----
