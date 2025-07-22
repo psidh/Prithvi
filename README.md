@@ -1,8 +1,31 @@
+![Version](https://img.shields.io/badge/version-v0.1.0--alpha-orange)
+
 # Prithvi: A Key-Value Database
 
 ![alt text](assets/Prithvi.png)
 
 **Prithvi** is an in-memory `key-value database` built from scratch in Java, without relying on external frameworks. It provides basic data storage operations, persistence to disk, and essential features like TTL (Time-To-Live) expiry and automatic data management.
+
+## Contents
+
+- [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+  - [Tech Stack](#tech-stack)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Running the Server](#running-the-server)
+  - [Commands](#commands)
+  - [Persistence](#persistence)
+  - [Architecture \& Design Notes](#architecture--design-notes)
+  - [JavaScript Client SDK](#javascript-client-sdk)
+    - [Metrics and Monitoring](#metrics-and-monitoring)
+    - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
+  - [Security Warning](#security-warning)
+  - [License](#license)
+  - [Author](#author)
+
+---
 
 ### 🧪 Benchmarking vs Redis
 
@@ -30,28 +53,6 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 #### Tech Stack
 
 [![My Skills](https://skillicons.dev/icons?i=java,prometheus,npm,js,docker)](https://skillicons.dev)
-
-## Contents
-
-- [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
-    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
-      - [Tech Stack](#tech-stack)
-  - [Contents](#contents)
-  - [Features](#features)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Running the Server](#running-the-server)
-  - [Commands](#commands)
-  - [Persistence](#persistence)
-  - [Architecture \& Design Notes](#architecture--design-notes)
-  - [JavaScript Client SDK](#javascript-client-sdk)
-    - [Metrics and Monitoring](#metrics-and-monitoring)
-    - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
-  - [Security Warning](#security-warning)
-  - [License](#license)
-  - [Author](#author)
-
----
 
 ## Features
 
@@ -196,6 +197,14 @@ To ensure **durability and crash recovery**, Prithvi uses a WAL system.
   - On restart, Prithvi checks `wal.log` → replays all valid entries → then loads `store.json`
 
 This makes **persistence + recovery reliable**, even if shutdown was ungraceful.
+
+---
+
+### Version
+Current Release: v0.1.0-alpha
+Released on: `July 21, 2025`
+
+> Prithvi is currently in alpha — breaking changes may occur. Use for educational or experimental purposes.
 
 ---
 
