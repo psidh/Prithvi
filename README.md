@@ -8,19 +8,24 @@
 
 ## Contents
 
-- [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
-  - [Tech Stack](#tech-stack)
+- [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
   - [Contents](#contents)
+    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+      - [Tech Stack](#tech-stack)
+  - [Contents](#contents-1)
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Running the Server](#running-the-server)
+      - [Normal](#normal)
+      - [Using Docker](#using-docker)
   - [Commands](#commands)
   - [Persistence](#persistence)
   - [Architecture \& Design Notes](#architecture--design-notes)
   - [JavaScript Client SDK](#javascript-client-sdk)
     - [Metrics and Monitoring](#metrics-and-monitoring)
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
+    - [Version](#version)
   - [Security Warning](#security-warning)
   - [License](#license)
   - [Author](#author)
@@ -54,6 +59,32 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 
 [![My Skills](https://skillicons.dev/icons?i=java,prometheus,npm,js,docker)](https://skillicons.dev)
 
+## Contents
+
+- [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
+  - [Contents](#contents)
+    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+      - [Tech Stack](#tech-stack)
+  - [Contents](#contents-1)
+  - [Features](#features)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Running the Server](#running-the-server)
+      - [Normal](#normal)
+      - [Using Docker](#using-docker)
+  - [Commands](#commands)
+  - [Persistence](#persistence)
+  - [Architecture \& Design Notes](#architecture--design-notes)
+  - [JavaScript Client SDK](#javascript-client-sdk)
+    - [Metrics and Monitoring](#metrics-and-monitoring)
+    - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
+    - [Version](#version)
+  - [Security Warning](#security-warning)
+  - [License](#license)
+  - [Author](#author)
+
+---
+
 ## Features
 
 Prithvi offers a core set of functionalities for a lightweight key-value database:
@@ -80,6 +111,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Running the Server
 
+#### Normal
+
 1. **Clone the repository:**
 
    ```bash
@@ -95,6 +128,14 @@ These instructions will get you a copy of the project up and running on your loc
    ```
 
    The server will start and listen on port `1902`. You will see startup information and the Prithvi ASCII art logo in your console.
+
+--- 
+
+#### Using Docker
+
+```bash
+docker pull psidharth/prithvi-docker
+```
 
 ---
 
@@ -155,7 +196,7 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 A lightweight JavaScript Client SDK is available to interact with Prithvi from browsers or Node.js.
 
 It wraps the custom TCP protocol and exposes async `set`, `get`, `del`, `auth`, and other command helpers.  
-🔗 [Prithvi JS SDK](https://github.com/psidh/prithvi-js-sdk) (Coming Soon)
+🔗 [Prithvi JS SDK](https://github.com/psidh/prithvi-js-sdk)
 
 ---
 
