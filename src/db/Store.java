@@ -1,3 +1,16 @@
+/**
+ * Prithvi – An in-memory key-value database
+ * with TTL, LRU eviction, disk persistence, lists, sets,
+ * and multithreaded client support.
+ *
+ * © 2025 PHILKHANA SIDHARTH
+ * Licensed under the Apache License, Version 2.0.
+ * You may obtain a copy at:
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * You must retain this header in any redistribution or modification.
+ */
+
 package src.db;
 
 import java.util.Collections;
