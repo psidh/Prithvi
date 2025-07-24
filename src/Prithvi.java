@@ -62,7 +62,7 @@ public class Prithvi {
                             null,
                             Store.get());
 
-                    System.out.println(" Store saved successfully.");
+                    System.out.println("Store saved successfully.");
 
                 } catch (Exception e) {
                     System.err.println("Failed to save on shutdown: " + e.getMessage());
