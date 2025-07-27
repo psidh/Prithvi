@@ -44,7 +44,7 @@ public class ClientHandler implements Runnable {
         try (
                 BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
-            writer.println("🚀 PrithviServer listening on port 1902");
+            
             Parser parser = new Parser(reader);
             WALManager walManager = WALManager.getInstance();
 
