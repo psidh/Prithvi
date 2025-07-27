@@ -22,7 +22,7 @@
   - [Commands](#commands)
   - [Persistence](#persistence)
   - [Architecture \& Design Notes](#architecture--design-notes)
-  - [JavaScript Client SDK](#javascript-client-sdk)
+  - [Client SDKs](#client-sdks)
     - [Metrics and Monitoring](#metrics-and-monitoring)
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
     - [Version](#version)
@@ -75,7 +75,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
   - [Commands](#commands)
   - [Persistence](#persistence)
   - [Architecture \& Design Notes](#architecture--design-notes)
-  - [JavaScript Client SDK](#javascript-client-sdk)
+  - [Client SDKs](#client-sdks)
     - [Metrics and Monitoring](#metrics-and-monitoring)
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
     - [Version](#version)
@@ -191,12 +191,13 @@ Prithvi's persistence mechanism saves the in-memory state to `data/store.json`.
 
 ---
 
-## JavaScript Client SDK
+## Client SDKs
 
-A lightweight JavaScript Client SDK is available to interact with Prithvi from browsers or Node.js.
+A lightweight JavaScript/Python Client SDK is available to interact with Prithvi from browsers or Node.js.
 
 It wraps the custom TCP protocol and exposes async `set`, `get`, `del`, `auth`, and other command helpers.  
 🔗 [Prithvi JS SDK](https://github.com/psidh/prithvi-js-sdk)
+🔗 [Prithvi Python SDK](https://github.com/psidh/prithvi-py-sdk)
 
 ---
 
