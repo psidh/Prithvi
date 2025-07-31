@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v0.1.0--alpha-orange)
+![Version](https://img.shields.io/badge/version-v0.1.0--alpha.1-orange)
 
 # Prithvi: A Key-Value Database
 
@@ -10,7 +10,7 @@
 
 - [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
   - [Contents](#contents)
-    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+    - [Benchmarking vs Redis](#benchmarking-vs-redis)
       - [Tech Stack](#tech-stack)
   - [Contents](#contents-1)
   - [Features](#features)
@@ -27,12 +27,13 @@
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
     - [Version](#version)
   - [Security Warning](#security-warning)
+  - [Contributing](#contributing)
   - [License](#license)
   - [Author](#author)
 
 ---
 
-### 🧪 Benchmarking vs Redis
+### Benchmarking vs Redis
 
 We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom load generator simulating `SET`/`GET` operations with random keys.
 
@@ -63,7 +64,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
 
 - [Prithvi: A Key-Value Database](#prithvi-a-key-value-database)
   - [Contents](#contents)
-    - [🧪 Benchmarking vs Redis](#-benchmarking-vs-redis)
+    - [Benchmarking vs Redis](#benchmarking-vs-redis)
       - [Tech Stack](#tech-stack)
   - [Contents](#contents-1)
   - [Features](#features)
@@ -80,6 +81,7 @@ We benchmarked Prithvi against Redis (v7.2) on the same machine using a custom l
     - [Write-Ahead Logging (WAL)](#write-ahead-logging-wal)
     - [Version](#version)
   - [Security Warning](#security-warning)
+  - [Contributing](#contributing)
   - [License](#license)
   - [Author](#author)
 
@@ -129,7 +131,7 @@ These instructions will get you a copy of the project up and running on your loc
 
    The server will start and listen on port `1902`. You will see startup information and the Prithvi ASCII art logo in your console.
 
---- 
+---
 
 #### Using Docker
 
@@ -243,7 +245,8 @@ This makes **persistence + recovery reliable**, even if shutdown was ungraceful.
 ---
 
 ### Version
-Current Release: v0.1.0-alpha
+
+Current Release: v0.1.0-alpha.1
 Released on: `July 21, 2025`
 
 > Prithvi is currently in alpha — breaking changes may occur. Use for educational or experimental purposes.
@@ -253,6 +256,12 @@ Released on: `July 21, 2025`
 ## Security Warning
 
 **⚠️ Warning**: This is an experimental build and is not intended for production use. It consists of basic authentication, encryption, but lacks robust error handling typical of production-grade systems. Use with caution.
+
+---
+
+## Contributing
+
+Checkout [Contributing.md](./CONTRIBUTING.md)
 
 ---
 
