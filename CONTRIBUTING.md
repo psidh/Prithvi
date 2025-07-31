@@ -9,19 +9,18 @@ We welcome contributions of all kinds – features, bug fixes, documentation, or
 ## Local Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/psidh/prithvi.git
    cd prithvi
    ```
 
-````bash
-
 2. Build and run:
 
    ```bash
-   javac Main.java
-   java Main
-````
+   chmod +x run.sh
+   ./run.sh
+   ```
 
 3. (Optional) Install JS or Python SDK:
 
@@ -104,3 +103,7 @@ Follow existing patterns unless there's a good reason not to.
 ## Need Help?
 
 Open an issue or ping us on [X/Twitter](https://x.com/p_s1dharth). We're happy to support contributors.
+
+```
+
+```
