@@ -44,5 +44,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          prithvi:latest
-          prithvi:${{ github.sha }}
+          jayadityadocker/prithvi:latest
+          jayadityadocker/prithvi:${{ github.sha }}
