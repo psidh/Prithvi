@@ -46,3 +46,4 @@ jobs:
         tags: |
           psidharth/prithvi-docker:latest
           psidharth/prithvi-docker:${{ github.sha }}
+
