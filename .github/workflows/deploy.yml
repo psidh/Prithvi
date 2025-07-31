@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # This is a comment to force a fresh run
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -43,5 +44,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/prithvi:latest
-          ${{ secrets.DOCKER_USERNAME }}/prithvi:${{ github.sha }}
+          prithvi:latest
+          prithvi:${{ github.sha }}
